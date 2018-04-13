@@ -59,7 +59,7 @@ public class MessageUitls {
 		return msg.toString();
 	}
 
-	public static String toMessageStr(Message message) {
+	public static String toString(Message message) {
 		List<String> body = message.getBody();
 		String[] data = null;
 		if (body == null || body.size() < 1) {
@@ -71,7 +71,7 @@ public class MessageUitls {
 	}
 
 	public static void send(ChannelHandlerContext ctx, Message message) {
-		send(ctx, toMessageStr(message));
+		send(ctx, toString(message));
 	}
 
 	public static ChannelFuture send(ChannelHandlerContext ctx, String msg) {

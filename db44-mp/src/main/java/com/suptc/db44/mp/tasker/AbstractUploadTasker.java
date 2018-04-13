@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.util.MessageUitls;
 
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 
 public abstract class AbstractUploadTasker<T> implements Runnable{
@@ -25,13 +27,22 @@ public abstract class AbstractUploadTasker<T> implements Runnable{
 
 	@Override
 	public void run() {
-		Message m = createMessage();
-		log.info("channel {} 上传 {} 信息--->{}",new Object[]{this.ctx.channel(),this.zwName, m});
-		MessageUitls.send(ctx, m);
+		String upload=createMsg();
+		MessageUitls.send(ctx, upload).addListener(new ChannelFutureListener() {
+			@Override
+			public void operationComplete(ChannelFuture arg0) throws Exception {
+				log.info("channel {} 已上传 {} 信息--->{}",new Object[]{ctx.channel(),zwName, upload});
+			}
+		});
 	}
 
 	abstract T genEntity();
 
 	abstract Message createMessage() ;
+	
+	String createMsg() {
+		Message m = createMessage();
+		return MessageUitls.toString(m);
+	}
 	
 }
