@@ -12,6 +12,14 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.suptc</groupId>
+			<artifactId>db44.common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<!-- 打包 -->
