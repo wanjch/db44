@@ -1,0 +1,70 @@
+package com.suptc.db44.imscp.tasker;
+
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.handler.LoginHandler;
+import com.suptc.db44.util.ChannelUtils;
+
+import ch.qos.logback.core.net.LoginAuthenticator;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+
+
+// 检测2 分钟内未发送 登陆申请或递交链路检测请求
+public class CheckClientActiveTask implements Runnable {
+	final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
+	private ChannelHandlerContext ctx;
+	// 客户端是否发送消息
+	private DateTime lastClientReqTime;
+
+	public CheckClientActiveTask(ChannelHandlerContext ctx) {
+		this.ctx = ctx;
+	}
+
+	@Override
+	public void run() {
+		DateTime now = DateTime.now();
+		long internal = new Duration(getLastClientReqTime(), now).getStandardSeconds();
+		if (internal > Config.getInt("client_req_internal")) {
+			log.info("time now is {}", now);
+			final Channel channel = ctx.channel();
+			log.info("channel {},最近 {} s内未收到 客户端 登陆申请或递交链路检测请求",
+					new Object[] { channel, Config.getInt("client_req_internal") });
+			handleLogout(ctx);
+			ChannelUtils.closeChannelAndShutdownTasks(ctx);
+		}
+	}
+
+
+	private void handleLogout(ChannelHandlerContext ctx) {
+		// 更新该ip登录数
+		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
+		
+		Integer count = LoginHandler.loginCountRecord.get(remoteIp);
+		if (count == null) {
+			return;
+		}
+		if (count <= 1) {
+			LoginHandler.loginCountRecord.remove(remoteIp);
+		} else {
+			LoginHandler.loginCountRecord.put(remoteIp, --count);
+		}
+	}
+	
+	public void refreshClientReqTime() {
+		this.setLastClientReqTime(DateTime.now());
+	}
+
+	public DateTime getLastClientReqTime() {
+		return lastClientReqTime;
+	}
+
+	public void setLastClientReqTime(DateTime lastClientReqTime) {
+		this.lastClientReqTime = lastClientReqTime;
+	}
+	
+}
