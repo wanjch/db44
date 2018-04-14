@@ -31,7 +31,7 @@ public class UploadAlarmTasker extends AbstractUploadTasker<Alarm> {
 	}
 
 	@Override
-	public Message createMessage() {
+	public Message createMsg() {
 		Message m = new Message();
 		m.setFunction("U01");
 		m.setPlatform("mp_2");

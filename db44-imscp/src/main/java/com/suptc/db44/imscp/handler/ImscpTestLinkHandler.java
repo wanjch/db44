@@ -18,7 +18,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @author wanjingchang
  *
  */
-public class LinkRspHandler extends ChannelInboundHandlerAdapter {
+public class ImscpTestLinkHandler extends ChannelInboundHandlerAdapter {
 
 	private final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 	int count = 0;

@@ -5,14 +5,12 @@ import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.config.ImscpConfig;
 import com.suptc.db44.imscp.handler.LoginHandler;
 import com.suptc.db44.util.ChannelUtils;
 
-import ch.qos.logback.core.net.LoginAuthenticator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-
 
 // 检测2 分钟内未发送 登陆申请或递交链路检测请求
 public class CheckClientActiveTask implements Runnable {
@@ -27,23 +25,19 @@ public class CheckClientActiveTask implements Runnable {
 
 	@Override
 	public void run() {
-		DateTime now = DateTime.now();
-		long internal = new Duration(getLastClientReqTime(), now).getStandardSeconds();
-		if (internal > Config.getInt("client_req_internal")) {
-			log.info("time now is {}", now);
+		long internal = new Duration(getLastClientReqTime(), DateTime.now()).getStandardSeconds();
+		if (internal > ImscpConfig.getInt("client_req_internal")) {
 			final Channel channel = ctx.channel();
-			log.info("channel {},最近 {} s内未收到 客户端 登陆申请或递交链路检测请求",
-					new Object[] { channel, Config.getInt("client_req_internal") });
+			log.info("channel {},最近 {} s内未收到 客户端 登陆申请或递交链路检测请求", new Object[] { channel, internal });
 			handleLogout(ctx);
-			ChannelUtils.closeChannelAndShutdownTasks(ctx);
+			ChannelUtils.closeChannelAndShutdownTaskers(ctx);
 		}
 	}
-
 
 	private void handleLogout(ChannelHandlerContext ctx) {
 		// 更新该ip登录数
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		
+
 		Integer count = LoginHandler.loginCountRecord.get(remoteIp);
 		if (count == null) {
 			return;
@@ -54,7 +48,7 @@ public class CheckClientActiveTask implements Runnable {
 			LoginHandler.loginCountRecord.put(remoteIp, --count);
 		}
 	}
-	
+
 	public void refreshClientReqTime() {
 		this.setLastClientReqTime(DateTime.now());
 	}
@@ -66,5 +60,5 @@ public class CheckClientActiveTask implements Runnable {
 	public void setLastClientReqTime(DateTime lastClientReqTime) {
 		this.lastClientReqTime = lastClientReqTime;
 	}
-	
+
 }

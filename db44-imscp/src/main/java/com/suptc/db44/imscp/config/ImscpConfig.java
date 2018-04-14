@@ -3,8 +3,10 @@ package com.suptc.db44.imscp.config;
 
 import java.io.InputStream;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.suptc.db44.config.Config;
 
 public final class ImscpConfig extends Config {

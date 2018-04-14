@@ -1,7 +1,7 @@
 package com.suptc.db44.entity;
 
 /**
- * 卫星定位信息实体
+ * 超速信息
  * 
  * @author wanjingchang
  *

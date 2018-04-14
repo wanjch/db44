@@ -53,7 +53,7 @@ public class UploadSatelliteTasker extends AbstractUploadTasker<Satellite> {
 	}
 
 	@Override
-	Message createMessage() {
+	Message createMsg() {
 		Message m = new Message();
 		m.setFunction("U00");
 		m.setPlatform("mp_2");

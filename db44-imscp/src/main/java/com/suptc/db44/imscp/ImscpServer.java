@@ -16,17 +16,29 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+/**
+ * 市平台服务入口
+ * 
+ * @author wanjingchang
+ *
+ */
 public class ImscpServer {
-
+	
+	/**
+	 * 日志
+	 */
 	private final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
+	/**
+	 * 服务监听端口
+	 */
 	private int port;
 
 	public ImscpServer(int port) {
 		this.port = port;
 	}
 
-	public void run() throws Exception {
+	public void start() throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -36,11 +48,11 @@ public class ImscpServer {
 					.childOption(ChannelOption.SO_KEEPALIVE, true);
 
 			ChannelFuture f = b.bind(port);
-			log.info(" binding at {}", port);
+			log.debug(" binding at {}", port);
 			f.addListener(new ChannelFutureListener() {
 				@Override
 				public void operationComplete(ChannelFuture future) throws Exception {
-					log.info("bind {} ,channel = {}", future.isSuccess() ? "ok" : "failed", future.channel());
+					log.debug("bind {}## ,channel:{}", future.isSuccess() ? "ok" : "failed", future.channel());
 				}
 			});
 			f.channel().closeFuture().sync();
@@ -51,7 +63,7 @@ public class ImscpServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		new ImscpServer(Config.getInt("port")).run();
+		new ImscpServer(Config.getInt("port")).start();
 	}
 
 }

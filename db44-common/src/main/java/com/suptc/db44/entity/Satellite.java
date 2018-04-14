@@ -3,7 +3,7 @@ package com.suptc.db44.entity;
 import java.util.Date;
 
 /**
- * 卫星定位信息实体
+ * 卫星定位信息
  * 
  * @author wanjingchang
  *

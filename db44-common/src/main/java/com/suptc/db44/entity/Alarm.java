@@ -1,7 +1,7 @@
 package com.suptc.db44.entity;
 
 /**
- * 报警实体
+ * 报警信息
  * 
  * @author wanjingchang
  *

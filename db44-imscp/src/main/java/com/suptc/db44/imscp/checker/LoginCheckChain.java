@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.suptc.db44.config.Config;
-import com.suptc.db44.entity.Message;
 
 public class LoginCheckChain implements LoginCheck {
 

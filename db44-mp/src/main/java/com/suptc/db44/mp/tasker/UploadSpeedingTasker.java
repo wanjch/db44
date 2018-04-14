@@ -56,7 +56,7 @@ public class UploadSpeedingTasker extends AbstractUploadTasker<Speeding> {
 	}
 
 	@Override
-	Message createMessage() {
+	Message createMsg() {
 		Message m = new Message();
 		m.setFunction("U02");
 		m.setPlatform("mp_2");

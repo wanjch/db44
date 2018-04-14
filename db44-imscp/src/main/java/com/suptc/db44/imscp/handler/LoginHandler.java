@@ -1,6 +1,5 @@
 package com.suptc.db44.imscp.handler;
 
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -16,7 +15,6 @@ import com.suptc.db44.imscp.checker.LoginCheckChain;
 import com.suptc.db44.imscp.checker.PasswordCheck;
 import com.suptc.db44.imscp.checker.RandomSerialCheck;
 import com.suptc.db44.imscp.checker.UsernameCheck;
-import com.suptc.db44.imscp.config.ImscpConfig;
 import com.suptc.db44.util.ByteBufUtil;
 import com.suptc.db44.util.ChannelUtils;
 import com.suptc.db44.util.MessageUitls;

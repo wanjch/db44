@@ -1,7 +1,7 @@
 package com.suptc.db44.entity;
 
 /**
- * 车牌
+ * 车牌信息
  * 
  * @author lenovo
  *

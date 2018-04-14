@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.suptc.db44.config.Config;
 
+/**通用消息
+ * @author wanjingchang
+ *
+ */
 public class Message {
 	
 	String origin;

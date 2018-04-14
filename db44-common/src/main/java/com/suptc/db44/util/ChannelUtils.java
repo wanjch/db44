@@ -13,15 +13,39 @@ import io.netty.channel.EventLoop;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
+/**
+ * Channel工具类
+ * 
+ * @author wanjingchang
+ *
+ */
+/**
+ * @author wanjingchang
+ *
+ */
 public class ChannelUtils {
 
+	/**
+	 * 日志对象
+	 */
 	final static Logger log = LoggerFactory.getLogger(ChannelUtils.class.getSimpleName());
 
+	/**
+	 * 获取对方ip
+	 * 
+	 * @param channel
+	 * @return ip
+	 */
 	public static String remoteIp(Channel channel) {
 		InetSocketAddress addr = (InetSocketAddress) channel.remoteAddress();
 		return addr.getHostName();
 	}
 
+	/**
+	 * 关闭channel
+	 * 
+	 * @param channel
+	 */
 	public static void closeChannel(Channel channel) {
 		if (!channel.isActive()) {
 			return;
@@ -34,16 +58,26 @@ public class ChannelUtils {
 		});
 	}
 
+	/**
+	 * 关闭channel
+	 * 
+	 * @param ChannelHandlerContext
+	 */
 	public static void closeChannel(ChannelHandlerContext ctx) {
 		closeChannel(ctx.channel());
 	}
 
-	public static void shutdownTasks(Channel channel) {
+	/**
+	 * 停止channel绑定的定时任务
+	 * 
+	 * @param channel
+	 */
+	public static void shutdownTaskers(Channel channel) {
 		EventLoop eventLoop = channel.eventLoop();
-		if(eventLoop.isShutdown() ||eventLoop.isTerminated()){
-			return ;
+		if (eventLoop.isShutdown() || eventLoop.isTerminated()) {
+			return;
 		}
-		eventLoop.forEach(e->log.debug("{}", e));
+		eventLoop.forEach(e -> log.debug("{}", e));
 		eventLoop.shutdownGracefully().addListener(new GenericFutureListener() {
 			@Override
 			public void operationComplete(Future future) throws Exception {
@@ -52,16 +86,32 @@ public class ChannelUtils {
 		});
 	}
 
-	public static void shutdownTasks(ChannelHandlerContext ctx) {
-		shutdownTasks(ctx.channel());
-	}
-	
-	public static void closeChannelAndShutdownTasks(ChannelHandlerContext ctx){
-		closeChannelAndShutdownTasks(ctx.channel());
+	/**
+	 * 停止channel绑定的定时任务
+	 * 
+	 * @param ChannelHandlerContext
+	 */
+	public static void shutdownTaskers(ChannelHandlerContext ctx) {
+		shutdownTaskers(ctx.channel());
 	}
 
-	public static void closeChannelAndShutdownTasks(Channel channel) {
-		shutdownTasks(channel);
+	/**
+	 * 关闭channel并停止绑定的定时任务
+	 * 
+	 * @param 
+	 */
+	public static void closeChannelAndShutdownTaskers(ChannelHandlerContext ctx) {
+		closeChannelAndShutdownTaskers(ctx.channel());
+	}
+
+	/**
+	 * 关闭channel并停止绑定的定时任务
+	 * 
+	 * @param channel
+	 */
+	public static void closeChannelAndShutdownTaskers(Channel channel) {
+		shutdownTaskers(channel);
 		closeChannel(channel);
 	}
+	
 }

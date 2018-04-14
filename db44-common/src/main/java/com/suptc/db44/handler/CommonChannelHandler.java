@@ -23,13 +23,13 @@ public class CommonChannelHandler extends ChannelDuplexHandler {
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		ChannelUtils.shutdownTasks(ctx);
+		ChannelUtils.shutdownTaskers(ctx);
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		log.error(ctx.channel() + " exceptionCaught", cause);
-		ChannelUtils.closeChannelAndShutdownTasks(ctx);
+		ChannelUtils.closeChannelAndShutdownTaskers(ctx);
 	}
 
 	private void shutdownTasks(ChannelHandlerContext ctx) {

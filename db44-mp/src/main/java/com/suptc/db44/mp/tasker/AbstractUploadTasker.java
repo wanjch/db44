@@ -27,7 +27,7 @@ public abstract class AbstractUploadTasker<T> implements Runnable{
 
 	@Override
 	public void run() {
-		String upload=createMsg();
+		String upload=createMsgStr();
 		MessageUitls.send(ctx, upload).addListener(new ChannelFutureListener() {
 			@Override
 			public void operationComplete(ChannelFuture arg0) throws Exception {
@@ -38,10 +38,10 @@ public abstract class AbstractUploadTasker<T> implements Runnable{
 
 	abstract T genEntity();
 
-	abstract Message createMessage() ;
+	abstract Message createMsg() ;
 	
-	String createMsg() {
-		Message m = createMessage();
+	String createMsgStr() {
+		Message m = createMsg();
 		return MessageUitls.toString(m);
 	}
 	

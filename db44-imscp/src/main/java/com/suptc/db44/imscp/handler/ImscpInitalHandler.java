@@ -18,7 +18,7 @@ public class ImscpInitalHandler extends ChannelInitializer<SocketChannel>{
 		ChannelPipeline p = ch.pipeline();
 		p.addLast("CheckClientAciveHandler", new CheckClientAciveHandler());
 		p.addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("#".getBytes("gbk"))));
-		p.addLast("LinkRspHandler", new LinkRspHandler());
+		p.addLast("LinkRspHandler", new ImscpTestLinkHandler());
 		p.addLast("LoginHandler", new LoginHandler());
 		p.addLast("UploadHandler", new UploadHandler());
 		p.addLast("CommonChannelHandler", new CommonChannelHandler());

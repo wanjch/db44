@@ -1,7 +1,6 @@
 package com.suptc.db44.imscp.checker;
 
 import com.suptc.db44.config.Config;
-import com.suptc.db44.entity.Message;
 import com.suptc.db44.imscp.config.ImscpConfig;
 
 public class IpCheck implements LoginCheck {
