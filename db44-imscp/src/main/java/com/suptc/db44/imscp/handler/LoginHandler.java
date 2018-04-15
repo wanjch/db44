@@ -61,7 +61,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		// 读取消息，并转为Message对象：
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
-		log.info("received ByteBuf:{}", m.getOrigin());
+		log.debug("received ByteBuf:{}", m.getOrigin());
 
 		if (m.getFunction().equals(Config.get("LOGIN_REQ"))) {
 			log.info("received LOGIN_REQ-:{}", m);

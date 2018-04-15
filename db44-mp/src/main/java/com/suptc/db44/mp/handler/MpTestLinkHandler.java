@@ -23,14 +23,10 @@ public class MpTestLinkHandler extends ChannelInboundHandlerAdapter {
 	MpTestLinkTasker task = null;
 	
 	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		initCheckLinkTask(ctx);
-	}
-
-	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		initCheckLinkTask(ctx);
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
-		log.info("received origin {}",m);
+		log.debug("received origin {}",m.getOrigin());
 		// 市平台发送链路检测响应
 		if (m.getFunction().equals(Config.get("TEST_LINK_RSP"))) {
 			log.info("received TEST_LINK_RSP {}",m);

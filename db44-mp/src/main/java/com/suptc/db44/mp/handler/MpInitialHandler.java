@@ -19,7 +19,7 @@ public final class MpInitialHandler extends ChannelInitializer<SocketChannel> {
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline p = ch.pipeline();
-		p.addLast(new LoggingHandler(LogLevel.INFO));
+//		p.addLast(new LoggingHandler(LogLevel.INFO));
 		p.addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("#".getBytes("gbk"))));
 		p.addLast("MpLoginHandler", new MpLoginHandler());
 		p.addLast("MpTestLinkHandler", new MpTestLinkHandler());
