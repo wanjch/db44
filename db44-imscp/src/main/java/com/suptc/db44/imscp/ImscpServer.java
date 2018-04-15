@@ -56,7 +56,11 @@ public class ImscpServer {
 				}
 			});
 			f.channel().closeFuture().sync();
-		} finally {
+		}catch(Exception e){
+			log.error("启动服务异常", e);
+		}
+		
+		finally {
 			workerGroup.shutdownGracefully();
 			bossGroup.shutdownGracefully();
 		}

@@ -28,7 +28,7 @@ public class CheckClientActiveTask implements Runnable {
 		long internal = new Duration(getLastClientReqTime(), DateTime.now()).getStandardSeconds();
 		if (internal > ImscpConfig.getInt("client_req_internal")) {
 			final Channel channel = ctx.channel();
-			log.info("channel {},最近 {} s内未收到 客户端 登陆申请或递交链路检测请求", new Object[] { channel, internal });
+			log.info("channel {},最近 {} s内未收到 客户端 登陆申请或递交链路检测请求", channel, internal);
 			handleLogout(ctx);
 			ChannelUtils.closeChannelAndShutdownTaskers(ctx);
 		}

@@ -30,7 +30,7 @@ public class MpTestLinkHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
-		log.info("received origin {}",m);
+		log.debug("received origin {}",m);
 		// 市平台发送链路检测响应
 		if (m.getFunction().equals(Config.get("TEST_LINK_RSP"))) {
 			log.info("received TEST_LINK_RSP {}",m);

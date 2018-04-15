@@ -3,8 +3,12 @@ package com.suptc.db44.mp.handler;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.suptc.db44.entity.CrossBorder;
 import com.suptc.db44.mp.config.MpConfig;
 import com.suptc.db44.mp.tasker.UploadAlarmTasker;
+import com.suptc.db44.mp.tasker.UploadCrossBorderTasker;
+import com.suptc.db44.mp.tasker.UploadFatigueDrivingTasker;
 import com.suptc.db44.mp.tasker.UploadSatelliteTasker;
 import com.suptc.db44.mp.tasker.UploadSpeedingTasker;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,12 +20,45 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 	private UploadSatelliteTasker satelliteTask = null;
 	private UploadSpeedingTasker speedingTask = null;
 	private UploadAlarmTasker alarmTask = null;
-
+	private UploadFatigueDrivingTasker fatigueDrivingTasker = null;
+	private UploadCrossBorderTasker crossBorderTasker = null;
+	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		addUploadSatelliteTask(ctx);
 		addUploadSpeedingTask(ctx);
 		addUploadAlarmTask(ctx);
+		addUploadFatigueDrivingTasker(ctx);
+		addUploadCrossBorderTasker(ctx);
+	}
+
+	/**
+	 * @param ctx
+	 */
+	private void addUploadCrossBorderTasker(ChannelHandlerContext ctx) {
+		log.info("添加 UploadCrossBorderTasker");
+		if (this.crossBorderTasker == null) {
+			crossBorderTasker = new UploadCrossBorderTasker(ctx, "越界行驶");
+			// 每3秒钟检查一次链路
+			EventLoop eventLoop = ctx.channel().eventLoop();
+			eventLoop.scheduleAtFixedRate(crossBorderTasker, 0, MpConfig.getInt("upload_interval"),
+					TimeUnit.SECONDS);
+		}
+		
+	}
+
+	/**
+	 * @param ctx
+	 */
+	private void addUploadFatigueDrivingTasker(ChannelHandlerContext ctx) {
+		log.info("添加 UploadFatigueDrivingTasker");
+		if (this.fatigueDrivingTasker == null) {
+			fatigueDrivingTasker = new UploadFatigueDrivingTasker(ctx, "疲劳驾驶");
+			// 每3秒钟检查一次链路
+			EventLoop eventLoop = ctx.channel().eventLoop();
+			eventLoop.scheduleAtFixedRate(fatigueDrivingTasker, 0, MpConfig.getInt("upload_interval"),
+					TimeUnit.SECONDS);
+		}
 	}
 
 	private void addUploadSatelliteTask(ChannelHandlerContext ctx) {
