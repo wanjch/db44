@@ -41,14 +41,12 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	Map<SocketAddress, String> randomSerialRecord = new HashMap<>();
 
 	// 同一ip登录 统计 （key为ip),多客户端共享
-	public static Map<String, Integer> loginCountRecord = new Hashtable<>();
+	public static Map<String, Integer> onLine = new Hashtable<>();
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// 判定登录是否超限
-		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		Integer count = loginCountRecord.get(remoteIp);
-		if (count != null && count >= Config.getInt("client_online_limit")) {
+		if (isOnLineOver(ctx)) {
 			log.info("channel:{} 因登录数 超限，拒绝登录", ctx.channel());
 			ChannelUtils.closeChannel(ctx);
 		} else {
@@ -71,6 +69,11 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		}
 	}
 
+	/**
+	 * 发送随机字符串，并本地存档
+	 * 
+	 * @param ctx
+	 */
 	private void sendAndSaveRandomSerial(ChannelHandlerContext ctx) {
 		String serial = StringUtils.randomSerial();
 		String functionCode = "L00";
@@ -101,18 +104,21 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
 		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
-			loginCountRecord.put(remoteIp,
-					loginCountRecord.containsKey(remoteIp) ? loginCountRecord.get(remoteIp) + 1 : 1);
-			log.info("client {} 登录成功，当前该ip登录数: {}(注：null表示 0)", ctx.channel(), loginCountRecord.get(remoteIp));
+			increase(ctx);
+			log.info("client {} 登录成功，当前该ip登录数: {}(注：null表示 0)", ctx.channel(), onLine.get(remoteIp));
 		} else {// 登录失败
 			log.info(" channel {} login failed", ctx.channel());
 			future.addListener(ChannelFutureListener.CLOSE);
 		}
-
-		// 删除随机字符串
-		randomSerialRecord.remove(ctx.channel().remoteAddress());
 	}
 
+	/**
+	 * 登录校验
+	 * 
+	 * @param ctx
+	 * @param m
+	 * @return 结果码
+	 */
 	private String check(ChannelHandlerContext ctx, Message m) {
 		LoginCheckChain chain = new LoginCheckChain();
 		IpCheck ipCheck = new IpCheck(ChannelUtils.remoteIp(ctx.channel()));
@@ -124,8 +130,40 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		chain.addLoginCheck(ipCheck).addLoginCheck(SerialCheck).addLoginCheck(UsernameCheck)
 				.addLoginCheck(PasswordCheck);
 
-		String result = chain.doCheck();
-		return result;
+		return chain.doCheck();
 	}
-//~L01&mp01&27&f1c63144cb#|suptc_3|suptc_1#
+
+	/**
+	 * 判断在线数是否超限
+	 * 
+	 * @param ctx
+	 * @return
+	 */
+	private boolean isOnLineOver(ChannelHandlerContext ctx) {
+		// 判定登录是否超限
+		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
+		Integer count = onLine.get(remoteIp);
+		return count != null && count >= Config.getInt("client_online_limit");
+	}
+
+	public static void increase(ChannelHandlerContext ctx) {
+		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
+		// 更新该ip的登录数
+		onLine.put(remoteIp, onLine.containsKey(remoteIp) ? onLine.get(remoteIp) + 1 : 1);
+	}
+
+	public static void decrease(ChannelHandlerContext ctx) {
+		
+		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
+		if(!onLine.containsKey(remoteIp)) {
+			return ;
+		}
+		Integer online = onLine.get(remoteIp);
+		if(online>1) {
+			onLine.put(remoteIp, online-1);
+		}else {
+			onLine.remove(remoteIp);
+		}
+	}
+
 }
