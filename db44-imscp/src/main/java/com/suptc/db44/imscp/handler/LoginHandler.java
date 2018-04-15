@@ -105,7 +105,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
 			increase(ctx);
-			log.info("client {} 登录成功，当前该ip登录数: {}(注：null表示 0)", ctx.channel(), onLine.get(remoteIp));
+			log.info("client {} 登录成功，当前online: {}", ctx.channel(), onLine);
 		} else {// 登录失败
 			log.info(" channel {} login failed", ctx.channel());
 			future.addListener(ChannelFutureListener.CLOSE);
@@ -164,6 +164,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		}else {
 			onLine.remove(remoteIp);
 		}
+		
 	}
 
 }

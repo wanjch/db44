@@ -20,7 +20,7 @@ import io.netty.util.concurrent.GenericFutureListener;
  */
 public class CommonChannelHandler extends ChannelDuplexHandler {
 
-	public Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
+	protected Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {

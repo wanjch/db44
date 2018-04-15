@@ -8,8 +8,9 @@ public class LastHandler extends CommonChannelHandler{
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		this.log.info("移除该客户端");
 		LoginHandler.decrease(ctx);
+		log.info("移除channel：{}",ctx.channel().remoteAddress());
+		log.info("当前online：{}",LoginHandler.onLine);
 		super.exceptionCaught(ctx, cause);
 	}
 
