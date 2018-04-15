@@ -26,16 +26,14 @@ public class MpClient {
 		EventLoopGroup group = new NioEventLoopGroup();
 		try {
 			Bootstrap b = new Bootstrap();
-			b.group(group).channel(NioSocketChannel.class);
-			b.option(ChannelOption.TCP_NODELAY, true);
-			b.handler(new MpInitialHandler());
-			
+			b.group(group).channel(NioSocketChannel.class).handler(new MpInitialHandler());
+
 			ChannelFuture f = b.connect(host, port);
 			log.info(" connecting {}:{}", host, port);
 			f.addListener(new ChannelFutureListener() {
 				@Override
 				public void operationComplete(ChannelFuture future) throws Exception {
-					log.info("{} ,channel = {}",future.isSuccess()?"connected":"disconnected",future.channel());
+					log.info("{} ,channel = {}", future.isSuccess() ? "connected" : "disconnected", future.channel());
 				}
 			});
 			f.channel().closeFuture().sync();

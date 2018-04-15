@@ -8,6 +8,7 @@ import com.suptc.db44.util.ChannelUtils;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoop;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
@@ -19,7 +20,7 @@ import io.netty.util.concurrent.GenericFutureListener;
  */
 public class CommonChannelHandler extends ChannelDuplexHandler {
 
-	private final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
+	public Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {

@@ -38,14 +38,14 @@ public class CheckClientActiveTask implements Runnable {
 		// 更新该ip登录数
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
 
-		Integer count = LoginHandler.loginCountRecord.get(remoteIp);
+		Integer count = LoginHandler.onLine.get(remoteIp);
 		if (count == null) {
 			return;
 		}
 		if (count <= 1) {
-			LoginHandler.loginCountRecord.remove(remoteIp);
+			LoginHandler.onLine.remove(remoteIp);
 		} else {
-			LoginHandler.loginCountRecord.put(remoteIp, --count);
+			LoginHandler.onLine.put(remoteIp, --count);
 		}
 	}
 
