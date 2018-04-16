@@ -19,10 +19,6 @@ import io.netty.util.concurrent.GenericFutureListener;
  * @author wanjingchang
  *
  */
-/**
- * @author wanjingchang
- *
- */
 public class ChannelUtils {
 
 	/**
@@ -81,7 +77,7 @@ public class ChannelUtils {
 		eventLoop.shutdownGracefully().addListener(new GenericFutureListener() {
 			@Override
 			public void operationComplete(Future future) throws Exception {
-				log.info("channel {} 绑定的 Tasks 已解除", channel);
+				log.info("channel {} 绑定的 Taskers 已解除", channel);
 			}
 		});
 	}
