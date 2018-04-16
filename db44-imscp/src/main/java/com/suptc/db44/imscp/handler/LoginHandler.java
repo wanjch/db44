@@ -15,6 +15,7 @@ import com.suptc.db44.imscp.checker.LoginCheckChain;
 import com.suptc.db44.imscp.checker.PasswordCheck;
 import com.suptc.db44.imscp.checker.RandomSerialCheck;
 import com.suptc.db44.imscp.checker.UsernameCheck;
+import com.suptc.db44.imscp.config.ImscpConfig;
 import com.suptc.db44.util.ByteBufUtil;
 import com.suptc.db44.util.ChannelUtils;
 import com.suptc.db44.util.MessageUitls;
@@ -101,7 +102,6 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		log.info("send login_rsp:{}", msg);
 		ChannelFuture future = MessageUitls.send(ctx, msg);
 
-		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
 		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
 			increase(ctx);
@@ -143,7 +143,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		// 判定登录是否超限
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
 		Integer count = onLine.get(remoteIp);
-		return count != null && count >= Config.getInt("client_online_limit");
+		return count != null && count >= ImscpConfig.getInt("client_online_limit");
 	}
 
 	public static void increase(ChannelHandlerContext ctx) {
@@ -153,18 +153,18 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	public static void decrease(ChannelHandlerContext ctx) {
-		
+
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		if(!onLine.containsKey(remoteIp)) {
-			return ;
+		if (!onLine.containsKey(remoteIp)) {
+			return;
 		}
 		Integer online = onLine.get(remoteIp);
-		if(online>1) {
-			onLine.put(remoteIp, online-1);
-		}else {
+		if (online > 1) {
+			onLine.put(remoteIp, online - 1);
+		} else {
 			onLine.remove(remoteIp);
 		}
-		
+
 	}
 
 }
