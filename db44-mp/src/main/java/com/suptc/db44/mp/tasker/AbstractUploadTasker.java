@@ -36,7 +36,7 @@ public abstract class AbstractUploadTasker<T> implements Runnable{
 		});
 	}
 
-	abstract T genEntity();
+	abstract T createEntity();
 
 	abstract Message createMsg() ;
 	

@@ -9,6 +9,7 @@ import com.suptc.db44.mp.config.MpConfig;
 import com.suptc.db44.mp.tasker.UploadAlarmTasker;
 import com.suptc.db44.mp.tasker.UploadCrossBorderTasker;
 import com.suptc.db44.mp.tasker.UploadFatigueDrivingTasker;
+import com.suptc.db44.mp.tasker.UploadImageTasker;
 import com.suptc.db44.mp.tasker.UploadOmcTasker;
 import com.suptc.db44.mp.tasker.UploadSatelliteTasker;
 import com.suptc.db44.mp.tasker.UploadSpeedingTasker;
@@ -25,7 +26,8 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 	private UploadFatigueDrivingTasker fatigueDrivingTasker = null;
 	private UploadCrossBorderTasker crossBorderTasker = null;
 	private UploadOmcTasker omcTasker = null;
-	
+	private UploadImageTasker imageTasker = null;
+
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		addUploadSatelliteTask(ctx);
@@ -34,6 +36,18 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 		addUploadFatigueDrivingTasker(ctx);
 		addUploadCrossBorderTasker(ctx);
 		addUploadOmcTasker(ctx);
+		addUploadImageTasker(ctx);
+	}
+
+	private void addUploadImageTasker(ChannelHandlerContext ctx) {
+		log.info("添加 UploadImageTasker");
+		if (this.imageTasker == null) {
+			imageTasker = new UploadImageTasker(ctx, "图片");
+			// 每3秒钟检查一次链路
+			EventLoop eventLoop = ctx.channel().eventLoop();
+			eventLoop.scheduleAtFixedRate(imageTasker, 0, MpConfig.getInt("upload_interval"), TimeUnit.SECONDS);
+		}
+
 	}
 
 	private void addUploadOmcTasker(ChannelHandlerContext ctx) {
@@ -42,10 +56,8 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 			omcTasker = new UploadOmcTasker(ctx, "OMC及车辆静态");
 			// 每3秒钟检查一次链路
 			EventLoop eventLoop = ctx.channel().eventLoop();
-			eventLoop.scheduleAtFixedRate(omcTasker, 0, MpConfig.getInt("upload_interval"),
-					TimeUnit.SECONDS);
+			eventLoop.scheduleAtFixedRate(omcTasker, 0, MpConfig.getInt("upload_interval"), TimeUnit.SECONDS);
 		}
-		
 	}
 
 	/**
@@ -57,8 +69,7 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 			crossBorderTasker = new UploadCrossBorderTasker(ctx, "越界行驶");
 			// 每3秒钟检查一次链路
 			EventLoop eventLoop = ctx.channel().eventLoop();
-			eventLoop.scheduleAtFixedRate(crossBorderTasker, 0, MpConfig.getInt("upload_interval"),
-					TimeUnit.SECONDS);
+			eventLoop.scheduleAtFixedRate(crossBorderTasker, 0, MpConfig.getInt("upload_interval"), TimeUnit.SECONDS);
 		}
 	}
 

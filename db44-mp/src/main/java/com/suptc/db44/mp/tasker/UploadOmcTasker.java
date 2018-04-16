@@ -19,7 +19,7 @@ public class UploadOmcTasker extends AbstractUploadTasker<Omc> {
 	}
 
 	@Override
-	Omc genEntity() {
+	Omc createEntity() {
 		Plate p = new Plate();
 		p.setPlateType("0");
 		p.setCarPlate("粤S5s04sa");
@@ -46,20 +46,20 @@ public class UploadOmcTasker extends AbstractUploadTasker<Omc> {
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 		
-		m.addData(genEntity().getOmcId());
-		m.addData(genEntity().getMdcNorm());
-		m.addData(genEntity().getMdcId());
+		m.addData(createEntity().getOmcId());
+		m.addData(createEntity().getMdcNorm());
+		m.addData(createEntity().getMdcId());
 		
-		m.addData(genEntity().getPlate().getPlateType());
-		m.addData(genEntity().getPlate().getCarPlate());
-		m.addData(genEntity().getPlate().getCarPlateColor() + "");
+		m.addData(createEntity().getPlate().getPlateType());
+		m.addData(createEntity().getPlate().getCarPlate());
+		m.addData(createEntity().getPlate().getCarPlateColor() + "");
 		
 		
-		m.addData(genEntity().getVehicleTypeId());
-		m.addData(genEntity().getVehicleUseId());
-		m.addData(genEntity().getOrganizationCode());
-		m.addData(genEntity().getVehicleOrganization());
-		m.addData(genEntity().getVehicleIDCard());
+		m.addData(createEntity().getVehicleTypeId());
+		m.addData(createEntity().getVehicleUseId());
+		m.addData(createEntity().getOrganizationCode());
+		m.addData(createEntity().getVehicleOrganization());
+		m.addData(createEntity().getVehicleIDCard());
 		
 		String length = String.valueOf(m.getBody().size() * 2 - 1);
 		m.setLength(length);

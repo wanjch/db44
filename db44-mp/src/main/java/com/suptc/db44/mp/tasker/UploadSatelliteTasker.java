@@ -29,7 +29,7 @@ public class UploadSatelliteTasker extends AbstractUploadTasker<Satellite> {
 	}
 
 	@Override
-	Satellite genEntity() {
+	Satellite createEntity() {
 		// 生成卫星定位实体
 		Satellite s = new Satellite();
 		s.setSateliteTime(DateTime.now().toDate());
@@ -59,19 +59,19 @@ public class UploadSatelliteTasker extends AbstractUploadTasker<Satellite> {
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 
-		m.addData(DateFormatUtils.format(genEntity().getSateliteTime(), Config.get("TIME_FORMAT"), Locale.CHINA));
-		m.addData(genEntity().getLongitude() + "");
-		m.addData(genEntity().getLatitude() + "");
-		m.addData(genEntity().getAltitude() + "");
-		m.addData(genEntity().getSatelliteSpeed() + "");
-		m.addData(genEntity().getSpeed() + "");
-		m.addData(genEntity().getHeading() + "");
-		m.addData(genEntity().getPlate().getPlateType());
-		m.addData(genEntity().getPlate().getCarPlate());
-		m.addData(genEntity().getPlate().getCarPlateColor() + "");
-		m.addData(genEntity().getVehicleIDCard());
-		m.addData(genEntity().getVehicleIDCard());
-		m.addData(genEntity().getCarState());
+		m.addData(DateFormatUtils.format(createEntity().getSateliteTime(), Config.get("TIME_FORMAT"), Locale.CHINA));
+		m.addData(createEntity().getLongitude() + "");
+		m.addData(createEntity().getLatitude() + "");
+		m.addData(createEntity().getAltitude() + "");
+		m.addData(createEntity().getSatelliteSpeed() + "");
+		m.addData(createEntity().getSpeed() + "");
+		m.addData(createEntity().getHeading() + "");
+		m.addData(createEntity().getPlate().getPlateType());
+		m.addData(createEntity().getPlate().getCarPlate());
+		m.addData(createEntity().getPlate().getCarPlateColor() + "");
+		m.addData(createEntity().getVehicleIDCard());
+		m.addData(createEntity().getVehicleIDCard());
+		m.addData(createEntity().getCarState());
 
 		String length = String.valueOf(m.getBody().size() * 2 - 1);
 		m.setLength(length);

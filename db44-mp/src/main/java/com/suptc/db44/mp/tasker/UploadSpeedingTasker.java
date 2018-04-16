@@ -30,7 +30,7 @@ public class UploadSpeedingTasker extends AbstractUploadTasker<Speeding> {
 	}
 
 	@Override
-	Speeding genEntity() {
+	Speeding createEntity() {
 		// 生成超速实体
 		Satellite s = new Satellite();
 		s.setSateliteTime(DateTime.now().toDate());
@@ -62,20 +62,20 @@ public class UploadSpeedingTasker extends AbstractUploadTasker<Speeding> {
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 
-		m.addData(DateFormatUtils.format(genEntity().getSatellite().getSateliteTime(), Config.get("TIME_FORMAT"),
+		m.addData(DateFormatUtils.format(createEntity().getSatellite().getSateliteTime(), Config.get("TIME_FORMAT"),
 				Locale.CHINA));
-		m.addData(genEntity().getSatellite().getLongitude() + "");
-		m.addData(genEntity().getSatellite().getLatitude() + "");
-		m.addData(genEntity().getSatellite().getAltitude() + "");
-		m.addData(genEntity().getSatellite().getSatelliteSpeed() + "");
-		m.addData(genEntity().getSatellite().getSpeed() + "");
-		m.addData(genEntity().getSatellite().getHeading() + "");
-		m.addData(genEntity().getSatellite().getPlate().getPlateType());
-		m.addData(genEntity().getSatellite().getPlate().getCarPlate());
-		m.addData(genEntity().getSatellite().getPlate().getCarPlateColor() + "");
-		m.addData(genEntity().getSatellite().getVehicleIDCard());
-		m.addData(genEntity().getSatellite().getVehicleIDCard());
-		m.addData(genEntity().getSatellite().getCarState());
+		m.addData(createEntity().getSatellite().getLongitude() + "");
+		m.addData(createEntity().getSatellite().getLatitude() + "");
+		m.addData(createEntity().getSatellite().getAltitude() + "");
+		m.addData(createEntity().getSatellite().getSatelliteSpeed() + "");
+		m.addData(createEntity().getSatellite().getSpeed() + "");
+		m.addData(createEntity().getSatellite().getHeading() + "");
+		m.addData(createEntity().getSatellite().getPlate().getPlateType());
+		m.addData(createEntity().getSatellite().getPlate().getCarPlate());
+		m.addData(createEntity().getSatellite().getPlate().getCarPlateColor() + "");
+		m.addData(createEntity().getSatellite().getVehicleIDCard());
+		m.addData(createEntity().getSatellite().getVehicleIDCard());
+		m.addData(createEntity().getSatellite().getCarState());
 
 		String length = String.valueOf(m.getBody().size() * 2 - 1);
 		m.setLength(length);
