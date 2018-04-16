@@ -11,7 +11,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 
 public abstract class AbstractUploadTasker<T> implements Runnable{
-	final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
+	Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 	ChannelHandlerContext ctx;
 	String zwName;
 

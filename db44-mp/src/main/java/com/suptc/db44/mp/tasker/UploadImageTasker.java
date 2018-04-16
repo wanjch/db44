@@ -1,18 +1,18 @@
 package com.suptc.db44.mp.tasker;
 
-
-
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
-
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.joda.time.DateTime;
-
 import com.suptc.db44.config.Config;
 import com.suptc.db44.entity.Image;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.entity.Plate;
 import com.suptc.db44.entity.Satellite;
-
+import com.suptc.db44.mp.config.MpConfig;
 import io.netty.channel.ChannelHandlerContext;
 
 public class UploadImageTasker extends AbstractUploadTasker<Image>{
@@ -25,7 +25,7 @@ public class UploadImageTasker extends AbstractUploadTasker<Image>{
 	Image createEntity() {
 		Image i=new Image();
 		i.setSnapTime(DateTime.now().toDate());
-		i.setImage("test image".getBytes());
+		i.setImage(createImageDate());
 		i.setSuffix("jpg");
 		
 		Satellite s = new Satellite();
@@ -79,4 +79,20 @@ public class UploadImageTasker extends AbstractUploadTasker<Image>{
 		return m;
 	}
 
+	private byte[] createImageDate(){
+		String filepath=MpConfig.get("image_filepath");
+		byte[] buf ;
+		try {
+			InputStream input=new FileInputStream(filepath);
+			buf = new byte[input.available()];
+			IOUtils.readFully(input, buf);
+		} catch (IOException e) {
+			this.log.error("读取图片文件异常", e);
+			throw new RuntimeException(e);
+		}
+		buf="test image data".getBytes();
+		return buf;
+	}
+	
+	
 }
