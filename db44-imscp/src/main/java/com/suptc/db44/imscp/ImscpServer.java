@@ -39,6 +39,7 @@ public class ImscpServer {
 	}
 
 	public void start() throws Exception {
+		log.info(System.getProperty("java.class.path"));
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -58,9 +59,7 @@ public class ImscpServer {
 			f.channel().closeFuture().sync();
 		}catch(Exception e){
 			log.error("启动服务异常", e);
-		}
-		
-		finally {
+		}finally {
 			workerGroup.shutdownGracefully();
 			bossGroup.shutdownGracefully();
 		}

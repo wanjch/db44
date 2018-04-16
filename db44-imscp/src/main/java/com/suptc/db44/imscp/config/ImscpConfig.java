@@ -11,16 +11,16 @@ import com.suptc.db44.config.Config;
 
 public final class ImscpConfig extends Config {
 	private static String filename = "imscp.properties";
-	private static final Logger log = LoggerFactory.getLogger(Config.class.getSimpleName());
+	private static final Logger log = LoggerFactory.getLogger(ImscpConfig.class.getSimpleName());
 	private static Properties p = new Properties();
 	
 	static {
 		try {
-			InputStream fis = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			InputStream fis = loader.getResourceAsStream(filename);
 			p.load(fis);
 		} catch (Exception e) {
 			log.error("加载配置文件错误:" + filename, e);
-			e.printStackTrace();
 		}
 	}
 
@@ -36,4 +36,6 @@ public final class ImscpConfig extends Config {
 		return p;
 	}
 
+	public static void main(String[] args) {
+	}
 }

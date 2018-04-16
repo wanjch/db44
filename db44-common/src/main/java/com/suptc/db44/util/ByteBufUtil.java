@@ -17,13 +17,13 @@ public class ByteBufUtil {
 		byte[] dst = new byte[msg.readableBytes()];
 		msg.readBytes(dst);
 		msg.resetReaderIndex();
-//		log.debug("bytebuf string :{}",new String(dst, charsetName));
+		log.debug("bytebuf string :{}", new String(dst, charsetName));
 		return new String(dst, charsetName);
 	}
 
 	public static String convertToString(ByteBuf msg) throws UnsupportedEncodingException {
 		String charset = Config.get("charset");
-		charset="gbk";
+		charset = "gbk";
 		return convertToString(msg, charset);
 	}
 
