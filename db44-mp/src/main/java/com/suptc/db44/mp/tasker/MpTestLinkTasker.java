@@ -23,8 +23,6 @@ public class MpTestLinkTasker implements Runnable {
 	// 链路最近有效时间
 	private DateTime lastActiveTime;
 
-	private int count = 0;
-
 	public void refreshLastActiveTime() {
 		this.lastActiveTime = DateTime.now();
 	}

@@ -10,7 +10,6 @@ import com.suptc.db44.entity.Alarm;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.entity.Plate;
 import com.suptc.db44.entity.Satellite;
-import com.suptc.db44.util.MessageUitls;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -33,7 +32,7 @@ public class UploadAlarmTasker extends AbstractUploadTasker<Alarm> {
 	@Override
 	public Message createMsg() {
 		Message m = new Message();
-		m.setFunction("U01");
+		m.setFunction("U05");
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 		

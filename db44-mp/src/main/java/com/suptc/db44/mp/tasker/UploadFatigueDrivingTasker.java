@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 
 import com.suptc.db44.config.Config;
 import com.suptc.db44.entity.FatigueDriving;
-import com.suptc.db44.entity.FatigueDriving;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.entity.Plate;
 import com.suptc.db44.entity.Satellite;

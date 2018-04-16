@@ -1,16 +1,18 @@
 package com.suptc.db44.mp.handler;
 
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.entity.CrossBorder;
 import com.suptc.db44.mp.config.MpConfig;
 import com.suptc.db44.mp.tasker.UploadAlarmTasker;
 import com.suptc.db44.mp.tasker.UploadCrossBorderTasker;
 import com.suptc.db44.mp.tasker.UploadFatigueDrivingTasker;
+import com.suptc.db44.mp.tasker.UploadOmcTasker;
 import com.suptc.db44.mp.tasker.UploadSatelliteTasker;
 import com.suptc.db44.mp.tasker.UploadSpeedingTasker;
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.EventLoop;
@@ -22,6 +24,7 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 	private UploadAlarmTasker alarmTask = null;
 	private UploadFatigueDrivingTasker fatigueDrivingTasker = null;
 	private UploadCrossBorderTasker crossBorderTasker = null;
+	private UploadOmcTasker omcTasker = null;
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -30,6 +33,19 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 		addUploadAlarmTask(ctx);
 		addUploadFatigueDrivingTasker(ctx);
 		addUploadCrossBorderTasker(ctx);
+		addUploadOmcTasker(ctx);
+	}
+
+	private void addUploadOmcTasker(ChannelHandlerContext ctx) {
+		log.info("添加 UploadOmcTasker");
+		if (this.omcTasker == null) {
+			omcTasker = new UploadOmcTasker(ctx, "OMC及车辆静态");
+			// 每3秒钟检查一次链路
+			EventLoop eventLoop = ctx.channel().eventLoop();
+			eventLoop.scheduleAtFixedRate(omcTasker, 0, MpConfig.getInt("upload_interval"),
+					TimeUnit.SECONDS);
+		}
+		
 	}
 
 	/**
@@ -44,7 +60,6 @@ public class MpUploadHandler extends ChannelInboundHandlerAdapter {
 			eventLoop.scheduleAtFixedRate(crossBorderTasker, 0, MpConfig.getInt("upload_interval"),
 					TimeUnit.SECONDS);
 		}
-		
 	}
 
 	/**

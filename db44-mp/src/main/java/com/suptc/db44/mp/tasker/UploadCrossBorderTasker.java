@@ -33,7 +33,7 @@ public class UploadCrossBorderTasker extends AbstractUploadTasker<CrossBorder> {
 	@Override
 	public Message createMsg() {
 		Message m = new Message();
-		m.setFunction("U03");
+		m.setFunction("U04");
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 		
