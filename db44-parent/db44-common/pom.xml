@@ -5,7 +5,7 @@
 	
 	<parent>
 		<groupId>com.suptc</groupId>
-		<artifactId>db44-parent</artifactId>
+		<artifactId>db44</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 </project>
