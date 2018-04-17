@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.suptc.db44.config.Config;
 import com.suptc.db44.entity.Message;
-import com.suptc.db44.imscp.config.ImscpConfig;
 import com.suptc.db44.imscp.login.LoginInfo;
 import com.suptc.db44.imscp.login.checker.IpCheck;
 import com.suptc.db44.imscp.login.checker.LoginCheckChain;
@@ -44,7 +43,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// 判定登录是否超限
-		if (isOnLineOver(ctx)) {
+		if (LoginInfo.isOnLineOver(ctx)) {
 			log.info("channel:{} 因登录数 超限，拒绝登录", ctx.channel());
 			ChannelUtils.closeChannel(ctx);
 		} else {
@@ -104,7 +103,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 
 		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
-			increase(ctx);
+			LoginInfo.increase(ctx);
 			log.info("client {} 登录成功，当前online: {}", ctx.channel(), LoginInfo.onLine);
 		} else {// 登录失败
 			log.info(" channel {} login failed", ctx.channel());
@@ -131,40 +130,6 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 				.addLoginCheck(PasswordCheck);
 
 		return chain.doCheck();
-	}
-
-	/**
-	 * 判断在线数是否超限
-	 * 
-	 * @param ctx
-	 * @return
-	 */
-	private boolean isOnLineOver(ChannelHandlerContext ctx) {
-		// 判定登录是否超限
-		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		Integer count = LoginInfo.onLine.get(remoteIp);
-		return count != null && count >= ImscpConfig.getInt("client_online_limit");
-	}
-
-	public static void increase(ChannelHandlerContext ctx) {
-		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		// 更新该ip的登录数
-		LoginInfo.onLine.put(remoteIp, LoginInfo.onLine.containsKey(remoteIp) ? LoginInfo.onLine.get(remoteIp) + 1 : 1);
-	}
-
-	public static void decrease(ChannelHandlerContext ctx) {
-
-		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		if (!LoginInfo.onLine.containsKey(remoteIp)) {
-			return;
-		}
-		Integer online = LoginInfo.onLine.get(remoteIp);
-		if (online > 1) {
-			LoginInfo.onLine.put(remoteIp, online - 1);
-		} else {
-			LoginInfo.onLine.remove(remoteIp);
-		}
-
 	}
 
 }

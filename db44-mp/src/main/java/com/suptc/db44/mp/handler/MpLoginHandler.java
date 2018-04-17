@@ -2,7 +2,6 @@ package com.suptc.db44.mp.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.mp.config.MpConfig;
 import com.suptc.db44.config.Config;
@@ -22,17 +21,22 @@ public class MpLoginHandler extends ChannelInboundHandlerAdapter {
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
 		log.debug("received origin:{}", m.getOrigin());
 
-		// 根据功能代码，进行对应处理
+		// 服务端发送随机序列
 		if (m.getFunction().equals(Config.get("send_randomstr"))) {
+			// 发送登录申请
 			loginReq(ctx, m);
+			// 禁止next handler处理
 			return;
 		}
+		// 服务端发送登录回应
 		if (m.getFunction().equals(Config.get("login_rsp"))) {
 			String loginResult = handleLoginRsp(ctx, m);
+			// 登录失败，则不做下一步操作
 			if (!loginResult.equals(Config.get("success"))) {
 				return;
 			}
 		}
+		//
 		super.channelRead(ctx, msg);
 	}
 
