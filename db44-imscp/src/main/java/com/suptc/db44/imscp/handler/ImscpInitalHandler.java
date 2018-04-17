@@ -16,10 +16,11 @@ public class ImscpInitalHandler extends ChannelInitializer<SocketChannel>{
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline p = ch.pipeline();
-		p.addLast("CheckClientAciveHandler", new CheckClientAciveHandler());
 		p.addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("#".getBytes("gbk"))));
-		p.addLast("ImscpTestLinkHandler", new ImscpTestLinkHandler());
+		//先判断是否登录
 		p.addLast("LoginHandler", new LoginHandler());
+		p.addLast("CheckClientAciveHandler", new CheckClientAciveHandler());
+		p.addLast("ImscpTestLinkHandler", new ImscpTestLinkHandler());
 		p.addLast("UploadHandler", new UploadHandler());
 		p.addLast("LastHandler", new LastHandler());
 		p.names().forEach(name -> log.info("添加 handler: {}",name));

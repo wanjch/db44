@@ -1,4 +1,4 @@
-package com.suptc.db44.imscp.checker;
+package com.suptc.db44.imscp.login.checker;
 
 import com.suptc.db44.config.Config;
 import com.suptc.db44.imscp.config.ImscpConfig;

@@ -2,7 +2,6 @@ package com.suptc.db44.imscp.handler;
 
 import java.net.SocketAddress;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,12 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import com.suptc.db44.config.Config;
 import com.suptc.db44.entity.Message;
-import com.suptc.db44.imscp.checker.IpCheck;
-import com.suptc.db44.imscp.checker.LoginCheckChain;
-import com.suptc.db44.imscp.checker.PasswordCheck;
-import com.suptc.db44.imscp.checker.RandomSerialCheck;
-import com.suptc.db44.imscp.checker.UsernameCheck;
 import com.suptc.db44.imscp.config.ImscpConfig;
+import com.suptc.db44.imscp.login.LoginInfo;
+import com.suptc.db44.imscp.login.checker.IpCheck;
+import com.suptc.db44.imscp.login.checker.LoginCheckChain;
+import com.suptc.db44.imscp.login.checker.PasswordCheck;
+import com.suptc.db44.imscp.login.checker.RandomSerialCheck;
+import com.suptc.db44.imscp.login.checker.UsernameCheck;
 import com.suptc.db44.util.ByteBufUtil;
 import com.suptc.db44.util.ChannelUtils;
 import com.suptc.db44.util.MessageUitls;
@@ -41,9 +41,6 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	// TODO （key为ip?ip+port)
 	Map<SocketAddress, String> randomSerialRecord = new HashMap<>();
 
-	// 同一ip登录 统计 （key为ip),多客户端共享
-	public static Map<String, Integer> onLine = new Hashtable<>();
-
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// 判定登录是否超限
@@ -58,16 +55,19 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		// 读取消息，并转为Message对象：
+		// 若已登录，则交由next handler处理
+		if (LoginInfo.isLogin(ctx)) {
+			super.channelRead(ctx, msg);
+			return;
+		}
+		
+		// 若未登录，则处理登录申请
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
 		log.debug("received ByteBuf:{}", m.getOrigin());
-
 		if (m.getFunction().equals(Config.get("LOGIN_REQ"))) {
-			log.info("received LOGIN_REQ-:{}", m);
+			log.info("received LOGIN_REQ : {}", m);
 			handleLoginReq(ctx, m);
-		} else {
-			super.channelRead(ctx, msg);
-		}
+		} 
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
 			increase(ctx);
-			log.info("client {} 登录成功，当前online: {}", ctx.channel(), onLine);
+			log.info("client {} 登录成功，当前online: {}", ctx.channel(), LoginInfo.onLine);
 		} else {// 登录失败
 			log.info(" channel {} login failed", ctx.channel());
 			future.addListener(ChannelFutureListener.CLOSE);
@@ -142,27 +142,27 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	private boolean isOnLineOver(ChannelHandlerContext ctx) {
 		// 判定登录是否超限
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		Integer count = onLine.get(remoteIp);
+		Integer count = LoginInfo.onLine.get(remoteIp);
 		return count != null && count >= ImscpConfig.getInt("client_online_limit");
 	}
 
 	public static void increase(ChannelHandlerContext ctx) {
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
 		// 更新该ip的登录数
-		onLine.put(remoteIp, onLine.containsKey(remoteIp) ? onLine.get(remoteIp) + 1 : 1);
+		LoginInfo.onLine.put(remoteIp, LoginInfo.onLine.containsKey(remoteIp) ? LoginInfo.onLine.get(remoteIp) + 1 : 1);
 	}
 
 	public static void decrease(ChannelHandlerContext ctx) {
 
 		String remoteIp = ChannelUtils.remoteIp(ctx.channel());
-		if (!onLine.containsKey(remoteIp)) {
+		if (!LoginInfo.onLine.containsKey(remoteIp)) {
 			return;
 		}
-		Integer online = onLine.get(remoteIp);
+		Integer online = LoginInfo.onLine.get(remoteIp);
 		if (online > 1) {
-			onLine.put(remoteIp, online - 1);
+			LoginInfo.onLine.put(remoteIp, online - 1);
 		} else {
-			onLine.remove(remoteIp);
+			LoginInfo.onLine.remove(remoteIp);
 		}
 
 	}
