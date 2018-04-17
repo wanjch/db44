@@ -21,13 +21,8 @@ public class CheckClientAciveHandler extends ChannelInboundHandlerAdapter{
 	private CheckClientActiveTask task = null;
 
 	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		addClientActiveTaskTask(ctx);
-		super.channelActive(ctx);
-	}
-	
-	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		addClientActiveTaskTask(ctx);
 		// 客户端已发送请求,更新该状态值
 		task.refreshClientReqTime();
 		super.channelRead(ctx, msg);

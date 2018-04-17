@@ -39,7 +39,6 @@ public class ImscpServer {
 	}
 
 	public void start() throws Exception {
-		log.info(System.getProperty("java.class.path"));
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {

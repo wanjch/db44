@@ -21,7 +21,7 @@ public class ImscpInitalHandler extends ChannelInitializer<SocketChannel>{
 		p.addLast("ImscpTestLinkHandler", new ImscpTestLinkHandler());
 		p.addLast("UploadHandler", new UploadHandler());
 		p.addLast("LastHandler", new LastHandler());
-		p.names().forEach(name -> log.info("添加 handler: {}",name));
+		p.names().forEach(name -> log.info("{}添加handler:{}",ch,name));
 		
 	}
 

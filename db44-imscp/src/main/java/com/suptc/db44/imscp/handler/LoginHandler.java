@@ -21,6 +21,7 @@ import com.suptc.db44.util.MessageUitls;
 import com.suptc.db44.util.StringUtils;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -103,7 +104,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 
 		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
-			LoginInfo.increase(ctx);
+			LoginInfo.addClient(ctx);
 			log.info("client {} 登录成功，当前online: {}", ctx.channel(), LoginInfo.onLine);
 		} else {// 登录失败
 			log.info(" channel {} login failed", ctx.channel());
@@ -119,9 +120,12 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 	 * @return 结果码
 	 */
 	private String check(ChannelHandlerContext ctx, Message m) {
+		Channel channel = ctx.channel();
 		LoginCheckChain chain = new LoginCheckChain();
-		IpCheck ipCheck = new IpCheck(ChannelUtils.remoteIp(ctx.channel()));
-		RandomSerialCheck SerialCheck = new RandomSerialCheck(randomSerialRecord.get(ctx.channel().remoteAddress()),
+		String remoteIp = ChannelUtils.remoteIp(channel);
+		log.info("remoteIp :{}",remoteIp);
+		IpCheck ipCheck = new IpCheck(remoteIp);
+		RandomSerialCheck SerialCheck = new RandomSerialCheck(randomSerialRecord.get(channel.remoteAddress()),
 				m.getBody().get(0));
 		UsernameCheck UsernameCheck = new UsernameCheck(m.getBody().get(1));
 		PasswordCheck PasswordCheck = new PasswordCheck(m.getBody().get(1), m.getBody().get(2));
