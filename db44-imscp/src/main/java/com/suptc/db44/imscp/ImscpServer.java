@@ -3,7 +3,7 @@ package com.suptc.db44.imscp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.config.ImscpConfig;
 import com.suptc.db44.imscp.handler.ImscpInitalHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -65,7 +65,7 @@ public class ImscpServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		new ImscpServer(Config.getInt("port")).start();
+		new ImscpServer(ImscpConfig.getInt("port")).start();
 	}
 
 }

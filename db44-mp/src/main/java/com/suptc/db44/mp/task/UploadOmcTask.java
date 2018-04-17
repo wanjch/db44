@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.util.Locale;
 
@@ -11,10 +11,10 @@ import com.suptc.db44.entity.Plate;
 
 import io.netty.channel.ChannelHandlerContext;
 
-public class UploadOmcTasker extends AbstractUploadTasker<Omc> {
+public class UploadOmcTask extends AbstractUploadTask<Omc> {
 
 
-	public UploadOmcTasker(ChannelHandlerContext ctx, String string) {
+	public UploadOmcTask(ChannelHandlerContext ctx, String string) {
 		super(ctx, string);
 	}
 

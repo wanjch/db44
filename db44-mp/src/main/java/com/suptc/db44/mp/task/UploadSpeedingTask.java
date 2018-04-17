@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.util.Locale;
 
@@ -19,13 +19,13 @@ import io.netty.channel.ChannelHandlerContext;
  * @author wanjingchang
  *
  */
-public class UploadSpeedingTasker extends AbstractUploadTasker<Speeding> {
+public class UploadSpeedingTask extends AbstractUploadTask<Speeding> {
 
-	public UploadSpeedingTasker(ChannelHandlerContext ctx) {
+	public UploadSpeedingTask(ChannelHandlerContext ctx) {
 		super(ctx);
 	}
 
-	public UploadSpeedingTasker(ChannelHandlerContext ctx, String zwName) {
+	public UploadSpeedingTask(ChannelHandlerContext ctx, String zwName) {
 		super(ctx, zwName);
 	}
 

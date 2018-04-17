@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.suptc.db44.config.Config;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.mp.config.MpConfig;
-import com.suptc.db44.mp.tasker.MpTestLinkTasker;
+import com.suptc.db44.mp.task.MpTestLinkTask;
 import com.suptc.db44.util.ByteBufUtil;
 import com.suptc.db44.util.MessageUitls;
 
@@ -27,7 +27,7 @@ public class MpTestLinkHandler extends ChannelInboundHandlerAdapter {
 
 	private final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
-	MpTestLinkTasker task = null;
+	MpTestLinkTask task = null;
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -46,7 +46,7 @@ public class MpTestLinkHandler extends ChannelInboundHandlerAdapter {
 	public void initCheckLinkTask(ChannelHandlerContext ctx) {
 		if (task == null) {
 			log.info("添加 链路检测 任务");
-			task = new MpTestLinkTasker(ctx);
+			task = new MpTestLinkTask(ctx);
 			task.refreshLastActiveTime();
 			// 每3秒钟检查一次链路
 			EventLoop eventLoop = ctx.channel().eventLoop();

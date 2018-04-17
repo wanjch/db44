@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -17,7 +17,7 @@ import io.netty.channel.ChannelHandlerContext;
  * @author wanjingchang
  *
  */
-public class MpTestLinkTasker implements Runnable {
+public class MpTestLinkTask implements Runnable {
 	private final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 	ChannelHandlerContext ctx;
 	// 链路最近有效时间
@@ -27,7 +27,7 @@ public class MpTestLinkTasker implements Runnable {
 		this.lastActiveTime = DateTime.now();
 	}
 
-	public MpTestLinkTasker(ChannelHandlerContext ctx) {
+	public MpTestLinkTask(ChannelHandlerContext ctx) {
 		this.ctx = ctx;
 	}
 

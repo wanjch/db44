@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,9 +15,9 @@ import com.suptc.db44.entity.Satellite;
 import com.suptc.db44.mp.config.MpConfig;
 import io.netty.channel.ChannelHandlerContext;
 
-public class UploadImageTasker extends AbstractUploadTasker<Image>{
+public class UploadImageTask extends AbstractUploadTask<Image>{
 
-	public UploadImageTasker(ChannelHandlerContext ctx, String zwName) {
+	public UploadImageTask(ChannelHandlerContext ctx, String zwName) {
 		super(ctx, zwName);
 	}
 

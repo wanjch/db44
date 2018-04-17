@@ -1,4 +1,4 @@
-package com.suptc.db44.imscp.tasker;
+package com.suptc.db44.imscp.task;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;

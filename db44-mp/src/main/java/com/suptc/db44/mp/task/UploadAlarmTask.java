@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.util.Locale;
 
@@ -19,13 +19,13 @@ import io.netty.channel.ChannelHandlerContext;
  * @author wanjingchang
  *
  */
-public class UploadAlarmTasker extends AbstractUploadTasker<Alarm> {
+public class UploadAlarmTask extends AbstractUploadTask<Alarm> {
 
-	public UploadAlarmTasker(ChannelHandlerContext ctx) {
+	public UploadAlarmTask(ChannelHandlerContext ctx) {
 		super(ctx);
 	}
 
-	public UploadAlarmTasker(ChannelHandlerContext ctx, String zwName) {
+	public UploadAlarmTask(ChannelHandlerContext ctx, String zwName) {
 		super(ctx, zwName);
 	}
 

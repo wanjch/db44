@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.util.Locale;
 
@@ -18,13 +18,13 @@ import io.netty.channel.ChannelHandlerContext;
  * @author lenovo
  *
  */
-public class UploadSatelliteTasker extends AbstractUploadTasker<Satellite> {
+public class UploadSatelliteTask extends AbstractUploadTask<Satellite> {
 
-	public UploadSatelliteTasker(ChannelHandlerContext ctx) {
+	public UploadSatelliteTask(ChannelHandlerContext ctx) {
 		super(ctx);
 	}
 
-	public UploadSatelliteTasker(ChannelHandlerContext ctx, String zwName) {
+	public UploadSatelliteTask(ChannelHandlerContext ctx, String zwName) {
 		super(ctx, zwName);
 	}
 

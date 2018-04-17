@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.util.Locale;
 import java.util.Random;
@@ -20,13 +20,13 @@ import io.netty.channel.ChannelHandlerContext;
  * @author wanjingchang
  *
  */
-public class UploadFatigueDrivingTasker extends AbstractUploadTasker<FatigueDriving> {
+public class UploadFatigueDrivingTask extends AbstractUploadTask<FatigueDriving> {
 
-	public UploadFatigueDrivingTasker(ChannelHandlerContext ctx) {
+	public UploadFatigueDrivingTask(ChannelHandlerContext ctx) {
 		super(ctx);
 	}
 
-	public UploadFatigueDrivingTasker(ChannelHandlerContext ctx, String zwName) {
+	public UploadFatigueDrivingTask(ChannelHandlerContext ctx, String zwName) {
 		super(ctx, zwName);
 	}
 

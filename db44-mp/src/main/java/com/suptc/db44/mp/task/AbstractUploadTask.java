@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,16 +10,16 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 
-public abstract class AbstractUploadTasker<T> implements Runnable{
+public abstract class AbstractUploadTask<T> implements Runnable{
 	Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 	ChannelHandlerContext ctx;
 	String zwName;
 
-	public AbstractUploadTasker(ChannelHandlerContext ctx) {
+	public AbstractUploadTask(ChannelHandlerContext ctx) {
 		this.ctx = ctx;
 	}
 	
-	public AbstractUploadTasker(ChannelHandlerContext ctx, String zwName) {
+	public AbstractUploadTask(ChannelHandlerContext ctx, String zwName) {
 		super();
 		this.ctx = ctx;
 		this.zwName = zwName;

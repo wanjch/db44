@@ -1,4 +1,4 @@
-package com.suptc.db44.mp.tasker;
+package com.suptc.db44.mp.task;
 
 import java.util.Locale;
 import java.util.Random;
@@ -20,13 +20,13 @@ import io.netty.channel.ChannelHandlerContext;
  * @author wanjingchang
  *
  */
-public class UploadCrossBorderTasker extends AbstractUploadTasker<CrossBorder> {
+public class UploadCrossBorderTask extends AbstractUploadTask<CrossBorder> {
 
-	public UploadCrossBorderTasker(ChannelHandlerContext ctx) {
+	public UploadCrossBorderTask(ChannelHandlerContext ctx) {
 		super(ctx);
 	}
 
-	public UploadCrossBorderTasker(ChannelHandlerContext ctx, String zwName) {
+	public UploadCrossBorderTask(ChannelHandlerContext ctx, String zwName) {
 		super(ctx, zwName);
 	}
 

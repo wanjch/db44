@@ -2,14 +2,11 @@ package com.suptc.db44.mp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.suptc.db44.config.Config;
+import com.suptc.db44.mp.config.MpConfig;
 import com.suptc.db44.mp.handler.MpInitialHandler;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -19,7 +16,7 @@ public class MpClient {
 
 	public static void main(String[] args) throws Exception {
 		// 发起连接
-		new MpClient().connect(Config.get("server_ip"), Config.getInt("port"));
+		new MpClient().connect(MpConfig.get("server_ip"), MpConfig.getInt("port"));
 	}
 
 	public void connect(String host, int port) {
