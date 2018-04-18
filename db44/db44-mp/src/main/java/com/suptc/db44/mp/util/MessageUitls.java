@@ -1,14 +1,12 @@
-package com.suptc.db44.util;
+package com.suptc.db44.mp.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Splitter;
-import com.suptc.db44.config.Config;
-import com.suptc.db44.entity.Message;
+import com.suptc.db44.mp.config.MpConfig;
+import com.suptc.db44.mp.entity.Message;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -17,8 +15,8 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class MessageUitls {
 	private final static Logger log = LoggerFactory.getLogger(ByteBufUtil.class.getSimpleName());
-	private final static String delimiter = Config.get("delimiter");
-	private final static String data_delimiter = Config.get("data_delimiter");
+	private final static String delimiter = MpConfig.get("delimiter");
+	private final static String data_delimiter = MpConfig.get("data_delimiter");
 
 	public static Message parse(String msgStr) {
 		// "~T00&mp01&2&|"
@@ -54,8 +52,8 @@ public class MessageUitls {
 	public static String genMessage(String functionCode, String platformCode, String[] data) {
 		StringBuffer msg = new StringBuffer();
 		String body = genMsgBody(data);
-		msg.append(Config.get("begin")).append(functionCode).append(delimiter).append(platformCode).append(delimiter)
-				.append(body.length()).append(delimiter).append(body).append(Config.get("end"));
+		msg.append(MpConfig.get("begin")).append(functionCode).append(delimiter).append(platformCode).append(delimiter)
+				.append(body.length()).append(delimiter).append(body).append(MpConfig.get("end"));
 		return msg.toString();
 	}
 

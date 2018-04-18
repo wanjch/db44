@@ -1,4 +1,4 @@
-package com.suptc.db44.entity;
+package com.suptc.db44.mp.entity;
 
 /**
  * 越界信息
@@ -6,9 +6,9 @@ package com.suptc.db44.entity;
  * @author wanjingchang
  *
  */
-public class FatigueDriving {
+public class CrossBorder {
 
-	int totalTime;
+	int crossBorderType;
 	
 	Satellite satellite;
 
@@ -23,15 +23,15 @@ public class FatigueDriving {
 	/**
 	 * @return the crossBorderType
 	 */
-	public int getTotalTime() {
-		return totalTime;
+	public int getCrossBorderType() {
+		return crossBorderType;
 	}
 
 	/**
 	 * @param crossBorderType the crossBorderType to set
 	 */
-	public void setTotalTime(int crossBorderType) {
-		this.totalTime = crossBorderType;
+	public void setCrossBorderType(int crossBorderType) {
+		this.crossBorderType = crossBorderType;
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +39,7 @@ public class FatigueDriving {
 	 */
 	@Override
 	public String toString() {
-		return "CrossBorder [crossBorderType=" + totalTime + ", satellite=" + satellite + "]";
+		return "CrossBorder [crossBorderType=" + crossBorderType + ", satellite=" + satellite + "]";
 	}
 
 	

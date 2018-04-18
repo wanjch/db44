@@ -1,11 +1,11 @@
-package com.suptc.db44.util;
+package com.suptc.db44.imscp.util;
 
 import java.io.UnsupportedEncodingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.config.ImscpConfig;
 
 import io.netty.buffer.ByteBuf;
 
@@ -22,7 +22,7 @@ public class ByteBufUtil {
 	}
 
 	public static String convertToString(ByteBuf msg) throws UnsupportedEncodingException {
-		String charset = Config.get("charset");
+		String charset = ImscpConfig.get("charset");
 		charset = "gbk";
 		return convertToString(msg, charset);
 	}

@@ -1,6 +1,5 @@
 package com.suptc.db44.imscp.login.check;
 
-import com.suptc.db44.config.Config;
 import com.suptc.db44.imscp.config.ImscpConfig;
 
 public class UsernameCheck implements LoginCheck {
@@ -16,6 +15,6 @@ public class UsernameCheck implements LoginCheck {
 
 	@Override
 	public String doCheck() {
-		return Config.get(isValidUsername(username)?"success":"username_invalid");
+		return ImscpConfig.get(isValidUsername(username)?"success":"username_invalid");
 	}
 }

@@ -2,12 +2,13 @@ package com.suptc.db44.mp.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.suptc.db44.entity.Message;
+
 import com.suptc.db44.mp.config.MpConfig;
-import com.suptc.db44.config.Config;
-import com.suptc.db44.util.ByteBufUtil;
-import com.suptc.db44.util.ChannelUtils;
-import com.suptc.db44.util.MessageUitls;
+import com.suptc.db44.mp.entity.Message;
+import com.suptc.db44.mp.util.ByteBufUtil;
+import com.suptc.db44.mp.util.ChannelUtils;
+import com.suptc.db44.mp.util.MessageUitls;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -22,17 +23,17 @@ public class MpLoginHandler extends ChannelInboundHandlerAdapter {
 		log.debug("received origin:{}", m.getOrigin());
 
 		// 服务端发送随机序列
-		if (m.getFunction().equals(Config.get("send_randomstr"))) {
+		if (m.getFunction().equals(MpConfig.get("send_randomstr"))) {
 			// 发送登录申请
 			loginReq(ctx, m);
 			// 禁止next handler处理
 			return;
 		}
 		// 服务端发送登录回应
-		if (m.getFunction().equals(Config.get("login_rsp"))) {
+		if (m.getFunction().equals(MpConfig.get("login_rsp"))) {
 			String loginResult = handleLoginRsp(ctx, m);
 			// 登录失败，则不做下一步操作
-			if (!loginResult.equals(Config.get("success"))) {
+			if (!loginResult.equals(MpConfig.get("success"))) {
 				return;
 			}
 		}
@@ -68,7 +69,7 @@ public class MpLoginHandler extends ChannelInboundHandlerAdapter {
 	private String handleLoginRsp(ChannelHandlerContext ctx, Message m) {
 		String result = m.getBody().get(0);
 		// 登录成功，交由next handler处理
-		if (result.equals(Config.get("success"))) {
+		if (result.equals(MpConfig.get("success"))) {
 			log.info("登录成功--->{}", m);
 		} else {// 登录失败，关闭channel
 			log.info("登录失败:{}", m);

@@ -1,6 +1,6 @@
 package com.suptc.db44.imscp.login.check;
 
-import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.config.ImscpConfig;
 
 public class RandomSerialCheck implements LoginCheck {
 	String clientSerial;
@@ -14,7 +14,7 @@ public class RandomSerialCheck implements LoginCheck {
 
 	@Override
 	public String doCheck() {
-		return Config.get(clientSerial.equals(localSerial) ? "success" : "login_inject");
+		return ImscpConfig.get(clientSerial.equals(localSerial) ? "success" : "login_inject");
 	}
 
 }

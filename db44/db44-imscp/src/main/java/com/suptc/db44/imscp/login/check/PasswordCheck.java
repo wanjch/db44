@@ -1,6 +1,5 @@
 package com.suptc.db44.imscp.login.check;
 
-import com.suptc.db44.config.Config;
 import com.suptc.db44.imscp.config.ImscpConfig;
 
 public class PasswordCheck implements LoginCheck {
@@ -15,7 +14,7 @@ public class PasswordCheck implements LoginCheck {
 
 	@Override
 	public String doCheck() {
-		return Config.get(isValidPassword(username, password) ? "success" : "password_invalid");
+		return ImscpConfig.get(isValidPassword(username, password) ? "success" : "password_invalid");
 	}
 
 	private boolean isValidPassword(String username, String password) {

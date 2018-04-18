@@ -1,9 +1,9 @@
-package com.suptc.db44.entity;
+package com.suptc.db44.imscp.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.config.ImscpConfig;
 
 /**通用消息
  * @author wanjingchang
@@ -13,7 +13,7 @@ public class Message {
 	
 	String origin;
 	
-	String begin = Config.get("begin");
+	String begin = ImscpConfig.get("begin");
 	String function;
 	String platform;
 	String length;

@@ -7,18 +7,18 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.config.Config;
-import com.suptc.db44.entity.Message;
+import com.suptc.db44.imscp.config.ImscpConfig;
+import com.suptc.db44.imscp.entity.Message;
 import com.suptc.db44.imscp.login.LoginInfo;
 import com.suptc.db44.imscp.login.check.IpCheck;
 import com.suptc.db44.imscp.login.check.LoginCheckChain;
 import com.suptc.db44.imscp.login.check.PasswordCheck;
 import com.suptc.db44.imscp.login.check.RandomSerialCheck;
 import com.suptc.db44.imscp.login.check.UsernameCheck;
-import com.suptc.db44.util.ByteBufUtil;
-import com.suptc.db44.util.ChannelUtils;
-import com.suptc.db44.util.MessageUitls;
-import com.suptc.db44.util.StringUtils;
+import com.suptc.db44.imscp.util.ByteBufUtil;
+import com.suptc.db44.imscp.util.ChannelUtils;
+import com.suptc.db44.imscp.util.MessageUitls;
+import com.suptc.db44.imscp.util.StringUtils;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -64,7 +64,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		// 若未登录，则处理登录申请
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
 		log.debug("received ByteBuf:{}", m.getOrigin());
-		if (m.getFunction().equals(Config.get("LOGIN_REQ"))) {
+		if (m.getFunction().equals(ImscpConfig.get("LOGIN_REQ"))) {
 			log.info("received LOGIN_REQ : {}", m);
 			handleLoginReq(ctx, m);
 		} 
@@ -102,7 +102,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 		log.info("send login_rsp:{}", msg);
 		ChannelFuture future = MessageUitls.send(ctx, msg);
 
-		if (result.equals(Config.get("SUCCESS"))) {// 登录成功
+		if (result.equals(ImscpConfig.get("SUCCESS"))) {// 登录成功
 			// 更新该ip的登录数
 			LoginInfo.addClient(ctx);
 			log.info("client {} 登录成功，当前online: {}", ctx.channel(), LoginInfo.onLine);

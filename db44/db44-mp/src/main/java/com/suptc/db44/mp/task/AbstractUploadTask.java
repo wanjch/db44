@@ -3,8 +3,8 @@ package com.suptc.db44.mp.task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.entity.Message;
-import com.suptc.db44.util.MessageUitls;
+import com.suptc.db44.mp.entity.Message;
+import com.suptc.db44.mp.util.MessageUitls;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;

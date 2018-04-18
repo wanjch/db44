@@ -6,9 +6,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.config.Config;
-
-public final class MpConfig extends Config {
+public final class MpConfig{
 	private static String filename = "mp.properties";
 	private static final Logger log = LoggerFactory.getLogger(MpConfig.class.getSimpleName());
 	private static Properties p = new Properties();

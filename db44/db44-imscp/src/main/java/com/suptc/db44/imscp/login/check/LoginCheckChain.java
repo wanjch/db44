@@ -3,7 +3,7 @@ package com.suptc.db44.imscp.login.check;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.suptc.db44.config.Config;
+import com.suptc.db44.imscp.config.ImscpConfig;
 
 public class LoginCheckChain implements LoginCheck {
 
@@ -20,7 +20,7 @@ public class LoginCheckChain implements LoginCheck {
 
 	@Override
 	public String doCheck() {
-		String success = Config.get("success");
+		String success = ImscpConfig.get("success");
 		for (LoginCheck check : Checks) {
 			String result = check.doCheck();
 			if (!result.equals(success)) {

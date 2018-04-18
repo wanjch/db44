@@ -1,4 +1,4 @@
-package com.suptc.db44.util;
+package com.suptc.db44.imscp.util;
 
 import java.net.InetSocketAddress;
 

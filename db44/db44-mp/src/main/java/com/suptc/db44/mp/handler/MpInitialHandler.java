@@ -2,9 +2,6 @@ package com.suptc.db44.mp.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.suptc.db44.handler.CommonChannelHandler;
-
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

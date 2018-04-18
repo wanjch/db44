@@ -1,4 +1,4 @@
-package com.suptc.db44.entity;
+package com.suptc.db44.mp.entity;
 
 import java.util.Date;
 

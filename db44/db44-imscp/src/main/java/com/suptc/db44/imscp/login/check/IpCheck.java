@@ -1,6 +1,5 @@
 package com.suptc.db44.imscp.login.check;
 
-import com.suptc.db44.config.Config;
 import com.suptc.db44.imscp.config.ImscpConfig;
 
 public class IpCheck implements LoginCheck {
@@ -14,7 +13,7 @@ public class IpCheck implements LoginCheck {
 	@Override
 	public String doCheck() {
 		String validIps = ImscpConfig.get("valid_ip");
-		return Config.get(validIps.contains(this.ip) ? "success" : "req_inject");
+		return ImscpConfig.get(validIps.contains(this.ip) ? "success" : "req_inject");
 	}
 
 }

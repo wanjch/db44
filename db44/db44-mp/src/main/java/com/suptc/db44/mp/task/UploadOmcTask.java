@@ -1,8 +1,8 @@
 package com.suptc.db44.mp.task;
 
-import com.suptc.db44.entity.Message;
-import com.suptc.db44.entity.Omc;
-import com.suptc.db44.entity.Plate;
+import com.suptc.db44.mp.entity.Message;
+import com.suptc.db44.mp.entity.Omc;
+import com.suptc.db44.mp.entity.Plate;
 
 import io.netty.channel.ChannelHandlerContext;
 

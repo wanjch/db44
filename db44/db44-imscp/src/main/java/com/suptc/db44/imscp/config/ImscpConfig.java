@@ -7,9 +7,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.suptc.db44.config.Config;
-
-public final class ImscpConfig extends Config {
+public final class ImscpConfig {
 	private static String filename = "imscp.properties";
 	private static final Logger log = LoggerFactory.getLogger(ImscpConfig.class.getSimpleName());
 	private static Properties p = new Properties();

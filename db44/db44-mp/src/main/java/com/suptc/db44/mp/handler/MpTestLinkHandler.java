@@ -1,17 +1,13 @@
 package com.suptc.db44.mp.handler;
 
 import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.suptc.db44.config.Config;
-import com.suptc.db44.entity.Message;
 import com.suptc.db44.mp.config.MpConfig;
+import com.suptc.db44.mp.entity.Message;
 import com.suptc.db44.mp.task.MpTestLinkTask;
-import com.suptc.db44.util.ByteBufUtil;
-import com.suptc.db44.util.MessageUitls;
-
+import com.suptc.db44.mp.util.ByteBufUtil;
+import com.suptc.db44.mp.util.MessageUitls;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -35,7 +31,7 @@ public class MpTestLinkHandler extends ChannelInboundHandlerAdapter {
 		Message m = MessageUitls.parse(ByteBufUtil.convertToString((ByteBuf) msg));
 		log.debug("received origin {}", m.getOrigin());
 		// 市平台发送链路检测响应
-		if (m.getFunction().equals(Config.get("TEST_LINK_RSP"))) {
+		if (m.getFunction().equals(MpConfig.get("TEST_LINK_RSP"))) {
 			log.info("received TEST_LINK_RSP {}", m);
 			task.refreshLastActiveTime();
 		} else {// 其它功能，交由下一个handler处理msg

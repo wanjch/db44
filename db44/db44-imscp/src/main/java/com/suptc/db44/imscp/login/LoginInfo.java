@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.suptc.db44.imscp.config.ImscpConfig;
-import com.suptc.db44.util.ChannelUtils;
+import com.suptc.db44.imscp.util.ChannelUtils;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
