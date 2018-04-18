@@ -10,6 +10,7 @@ import com.suptc.db44.entity.Message;
 import com.suptc.db44.entity.Plate;
 import com.suptc.db44.entity.Satellite;
 import com.suptc.db44.entity.Speeding;
+import com.suptc.db44.mp.config.MpConfig;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -62,7 +63,7 @@ public class UploadSpeedingTask extends AbstractUploadTask<Speeding> {
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 
-		m.addData(DateFormatUtils.format(createEntity().getSatellite().getSateliteTime(), Config.get("TIME_FORMAT"),
+		m.addData(DateFormatUtils.format(createEntity().getSatellite().getSateliteTime(), MpConfig.get("time_format"),
 				Locale.CHINA));
 		m.addData(createEntity().getSatellite().getLongitude() + "");
 		m.addData(createEntity().getSatellite().getLatitude() + "");
@@ -79,7 +80,6 @@ public class UploadSpeedingTask extends AbstractUploadTask<Speeding> {
 
 		String length = String.valueOf(m.getBody().size() * 2 - 1);
 		m.setLength(length);
-
 		return m;
 	}
 

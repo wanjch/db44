@@ -58,7 +58,7 @@ public class UploadImageTask extends AbstractUploadTask<Image>{
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 		
-		m.addData(DateFormatUtils.format(createEntity().getSnapTime(), Config.get("TIME_FORMAT"),
+		m.addData(DateFormatUtils.format(createEntity().getSnapTime(), MpConfig.get("time_format"),
 				Locale.CHINA));
 		m.addData(new String(createEntity().getImage()));
 		m.addData(createEntity().getSuffix());

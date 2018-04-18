@@ -11,6 +11,7 @@ import com.suptc.db44.entity.CrossBorder;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.entity.Plate;
 import com.suptc.db44.entity.Satellite;
+import com.suptc.db44.mp.config.MpConfig;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -38,7 +39,7 @@ public class UploadCrossBorderTask extends AbstractUploadTask<CrossBorder> {
 //		m.setEnd(Config.get("end"));
 		
 		m.addData( createEntity().getCrossBorderType()+"");
-		m.addData(DateFormatUtils.format(createEntity().getSatellite().getSateliteTime(), Config.get("TIME_FORMAT"),
+		m.addData(DateFormatUtils.format(createEntity().getSatellite().getSateliteTime(), MpConfig.get("time_format"),
 				Locale.CHINA));
 		m.addData(createEntity().getSatellite().getLongitude() + "");
 		m.addData(createEntity().getSatellite().getLatitude() + "");

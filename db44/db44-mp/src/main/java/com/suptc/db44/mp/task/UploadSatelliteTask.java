@@ -5,10 +5,10 @@ import java.util.Locale;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.joda.time.DateTime;
 
-import com.suptc.db44.config.Config;
 import com.suptc.db44.entity.Message;
 import com.suptc.db44.entity.Plate;
 import com.suptc.db44.entity.Satellite;
+import com.suptc.db44.mp.config.MpConfig;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -59,7 +59,7 @@ public class UploadSatelliteTask extends AbstractUploadTask<Satellite> {
 		m.setPlatform("mp_2");
 //		m.setEnd(Config.get("end"));
 
-		m.addData(DateFormatUtils.format(createEntity().getSateliteTime(), Config.get("TIME_FORMAT"), Locale.CHINA));
+		m.addData(DateFormatUtils.format(createEntity().getSateliteTime(), MpConfig.get("time_format"), Locale.CHINA));
 		m.addData(createEntity().getLongitude() + "");
 		m.addData(createEntity().getLatitude() + "");
 		m.addData(createEntity().getAltitude() + "");
