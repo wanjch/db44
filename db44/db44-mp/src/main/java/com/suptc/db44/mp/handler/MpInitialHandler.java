@@ -16,7 +16,7 @@ public final class MpInitialHandler extends ChannelInitializer<SocketChannel> {
 		ChannelPipeline p = ch.pipeline();
 		p.addLast(new DelimiterBasedFrameDecoder(1024, Unpooled.copiedBuffer("#".getBytes("gbk"))));
 		p.addLast("MpLoginHandler", new MpLoginHandler());
-//		p.addLast("MpTestLinkHandler", new MpTestLinkHandler());
+		p.addLast("MpTestLinkHandler", new MpTestLinkHandler());
 		p.addLast("MpUploadHandler", new MpUploadHandler());
 		p.addLast("CommonChannelHandler", new CommonChannelHandler());
 		p.names().forEach(name -> log.info("channel {} 添加 handler: {}", ch, name));
